@@ -49,7 +49,7 @@ router.get("/", async (req, res, next) => {
     const { name } = req.query;
     const pokemonInfoTotal = await getAllPokemons();
     if (name) {
-      let pokemonName = await pokemonInfoTotal.filter(
+      let pokemonName = await pokemonInfoTotal?.filter(
         (el) => el.name.toLowerCase() === name.toLowerCase()
       );
       if (pokemonName.length < 1) throw new Error("Pokemon no encontrado ");

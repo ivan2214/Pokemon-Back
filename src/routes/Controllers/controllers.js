@@ -10,7 +10,7 @@ const getApiInfo = async () => {
 
   const dataUrl = await apiUrl?.data?.results?.map((el) => el.url);
   //mapeeo cada pokemon y voy a pasar su resultado guardando las propiedades y sus valores
-  const result = await Promise.all(dataUrl?.map(axios.get));
+  const result = await Promise.all(dataUrl?.map((e) => axios.get(e)));
 
   const resultFinal = result?.map((el) => {
     return {
