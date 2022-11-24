@@ -8,7 +8,7 @@ const getApiInfo = async () => {
     "https://pokeapi.co/api/v2/pokemon?offset=0&limit=40"
   );
 
-  const dataUrl = await apiUrl.data.results.map((el) => el.url);
+  const dataUrl = await apiUrl?.data?.results?.map((el) => el.url);
   //mapeeo cada pokemon y voy a pasar su resultado guardando las propiedades y sus valores
   const result = await Promise.all(dataUrl.map(axios.get));
 
