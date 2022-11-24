@@ -12,7 +12,21 @@ const getApiInfo = async () => {
   //mapeeo cada pokemon y voy a pasar su resultado guardando las propiedades y sus valores
 
   const result = await Promise.all(
-    dataUrl !== undefined ? dataUrl.map((e) => axios.get(e)) : []
+    dataUrl !== undefined
+      ? dataUrl.map((e) => axios.get(e))
+      : [
+          {
+            name: "el.data?.name",
+            hp: "el.data?.stats[0].base_stat",
+            attack: "el.data?.stats[1].base_stat",
+            defense: "el.data?.stats[2].base_stat",
+            speed: "el.data?.stats[5].base_stat",
+            height: " el.data?.height",
+            weight: " el.data?.weight",
+            image: "el.data?.sprites.other.dream_world.front_default",
+            types: "el.data?.types?.map((t) => t.type?.name)",
+          },
+        ]
   );
   console.log(result);
   const resultFinal = result?.map((el) => {
