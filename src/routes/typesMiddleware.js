@@ -5,7 +5,7 @@ const axios = require("axios");
 router.get("/", async (req, res) => {
   try {
     const apiPromise = await axios.get("https://pokeapi.co/api/v2/type"); // traigo todos los tipos de pokemones
-    let typesFromApi = apiPromise.data.results.map((t) => t.name).sort(); //tipos por orden alfabetico
+    let typesFromApi = apiPromise?.data?.results.map((t) => t.name).sort(); //tipos por orden alfabetico
 
     const pokeTypes = await Type.findAll({ attributes: ["id", "name"] });
     // pregunto si tengo tipos en la base de datos
