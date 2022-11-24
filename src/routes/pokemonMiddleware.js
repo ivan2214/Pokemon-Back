@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
       urlDeImagen = image;
     } else {
       urlDeImagen =
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Pokebola-pokeball-png-0.png/800px-Pokebola-pokeball-png-0.png";
+        "https://i.pinimg.com/originals/d1/74/44/d17444b8f3b365505e9ec74047aee1c0.jpg";
     }
 
     if (!name) {
