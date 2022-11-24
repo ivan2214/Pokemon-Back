@@ -10,9 +10,9 @@ const getApiInfo = async () => {
 
   const dataUrl = await apiUrl?.data?.results?.map((el) => el.url);
   //mapeeo cada pokemon y voy a pasar su resultado guardando las propiedades y sus valores
-  const result = await Promise.all(dataUrl.map(axios.get));
+  const result = await Promise.all(dataUrl?.map(axios.get));
 
-  const resultFinal = result.map((el) => {
+  const resultFinal = result?.map((el) => {
     return {
       pokeId: el.data?.id,
       name: el.data?.name,
@@ -23,7 +23,7 @@ const getApiInfo = async () => {
       height: el.data?.height,
       weight: el.data?.weight,
       image: el.data?.sprites.other.dream_world.front_default,
-      types: el.data?.types.map((t) => t.type.name),
+      types: el.data?.types?.map((t) => t?.type?.name),
     };
   });
 
