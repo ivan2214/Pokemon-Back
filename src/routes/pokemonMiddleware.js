@@ -100,12 +100,9 @@ router.put("/editar/:id", async (req, res) => {
     const { name, hp, attack, defense, speed, height, weight, image, types } =
       req.body;
     const { id } = req.params;
-    
-    if (id) {
-      if (!name) {
-        throw new Error("Faltan Parametros obligatorios");
-      }
 
+    if (id) {
+      console.log(name, types);
       const pokeEdit = await Pokemon.findByPk(id);
       await pokeEdit.update(
         {
@@ -117,16 +114,14 @@ router.put("/editar/:id", async (req, res) => {
           height: Number(height),
           weight: Number(weight),
           image,
-          types,
         },
         {
-          where: { id: id },
+          where: { pokeId: id },
         }
       );
       const typeDb = await Type.findAll({
-        where: { name: types },
+        where: { name: types.length > 1 ? types.map((t) => t.name) : types[0] },
       });
-      await pokeEdit.addType(typeDb);
       await pokeEdit.setTypes(typeDb);
       await pokeEdit.save();
       return res.status(200).json(pokeEdit);
