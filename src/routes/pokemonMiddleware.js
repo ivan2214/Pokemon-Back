@@ -120,7 +120,9 @@ router.put("/editar/:id", async (req, res) => {
         }
       );
       const typeDb = await Type.findAll({
-        where: { name: types.length > 1 ? types.map((t) => t.name) : types[0] },
+        where: {
+          name: types.length > 0 ? types.map((t) => t.name) : types[0],
+        },
       });
       await pokeEdit.setTypes(typeDb);
       await pokeEdit.save();
