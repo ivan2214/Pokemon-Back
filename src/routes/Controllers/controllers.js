@@ -26,7 +26,7 @@ const getApiInfo = async () => {
       height: el.data?.height,
       weight: el.data?.weight,
       image: el.data?.sprites.other.dream_world.front_default,
-      types: el.data?.types?.map((t) => t?.type?.name),
+      types: el.data?.types?.map((t) => t.type?.name),
     };
   });
 
