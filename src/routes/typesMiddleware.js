@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
       return res.status(200).json(typesAdded);
     }
   } catch (error) {
-    res.status(404).send("No se encontraron Tipos de Pokemones");
+    res.status(404).json({error:"No se encontraron Tipos de Pokemones"});
   }
 });
 
