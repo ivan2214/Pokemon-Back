@@ -14,7 +14,7 @@ const getApiInfo = async () => {
   const result = await Promise.all(
     dataUrl !== undefined ? dataUrl.map((e) => axios.get(e)) : []
   )
-  
+
   const resultFinal = result?.map((el) => {
     return {
       pokeId: el.data?.id,
@@ -29,7 +29,7 @@ const getApiInfo = async () => {
       types: el.data?.types?.map((t) => t.type?.name)
     }
   })
-  console.log(resultFinal)
+
   return resultFinal
 }
 
@@ -51,7 +51,8 @@ const getAllPokemons = async () => {
   try {
     const apiPokemon = await getApiInfo()
     const dbInfo = await getDbInfo()
-    const allInfo = dbInfo.concat(apiPokemon)
+    const allInfo = [...apiPokemon, ...dbInfo]
+    console.log(allInfo)
     return allInfo
   } catch (error) {
     console.error(error)

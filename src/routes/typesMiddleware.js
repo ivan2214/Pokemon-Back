@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
     const pokeTypes = await Type.findAll({ attributes: ["id", "name"] });
     // pregunto si tengo tipos en la base de datos
     if (pokeTypes.length > 0) {
-      return res.status(202).json(pokeTypes); // si tengo algo ya en la db entonces lo retorno, es decir los tipos de la api ccreados en la DB
+      return res.json(pokeTypes); // si tengo algo ya en la db entonces lo retorno, es decir los tipos de la api ccreados en la DB
     } else {
       typesFromApi.forEach((t) => {
         // si no los tengo entonces los creo con el metodo bulkcreate querecibe un array y va creando a todos los que recibi por medio de la api (typesFromApi)
