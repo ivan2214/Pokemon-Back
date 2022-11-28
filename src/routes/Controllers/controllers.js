@@ -25,11 +25,11 @@ const getApiInfo = async () => {
       speed: el.data?.stats[5].base_stat,
       height: el.data?.height,
       weight: el.data?.weight,
-      image: el.data?.sprites.other.dream_world.front_default,
+      image: el.data?.sprites?.other?.dream_world?.front_default,
       types: el.data?.types?.map((t) => t.type?.name)
     }
   })
-
+  console.log(resultFinal)
   return resultFinal
 }
 
