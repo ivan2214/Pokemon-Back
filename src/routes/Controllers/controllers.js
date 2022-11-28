@@ -14,7 +14,7 @@ const getApiInfo = async () => {
   const result = await Promise.all(
     dataUrl !== undefined ? dataUrl.map((e) => axios.get(e)) : []
   )
-  console.log(result)
+  
   const resultFinal = result?.map((el) => {
     return {
       pokeId: el.data?.id,

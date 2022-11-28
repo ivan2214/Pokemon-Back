@@ -1,27 +1,25 @@
-const { Router } = require("express");
-const router = Router(); //express.Router('')
-const axios = require("axios");
-const { Op } = require("sequelize");
-const { route } = require(".");
-const { getAllPokemons } = require("./Controllers/controllers");
-const { Pokemon, Type } = require("../db");
+const { Router } = require('express')
+const router = Router() //express.Router('')
 
-router.post("/", async (req, res) => {
+const { getAllPokemons } = require('./Controllers/controllers')
+const { Pokemon, Type } = require('../db')
+
+router.post('/', async (req, res) => {
   try {
     const { name, hp, attack, defense, speed, height, weight, image, types } =
-      req.body;
+      req.body
 
-    let urlDeImagen = "";
+    let urlDeImagen = ''
 
     if (image.length) {
-      urlDeImagen = image;
+      urlDeImagen = image
     } else {
       urlDeImagen =
-        "https://i.pinimg.com/originals/d1/74/44/d17444b8f3b365505e9ec74047aee1c0.jpg";
+        'https://i.pinimg.com/originals/d1/74/44/d17444b8f3b365505e9ec74047aee1c0.jpg'
     }
 
     if (!name) {
-      throw new Error("Faltan Parametros obligatorios");
+      throw new Error('Faltan Parametros obligatorios')
     }
 
     const newPokemon = await Pokemon.create({
@@ -32,78 +30,78 @@ router.post("/", async (req, res) => {
       speed: Number(speed),
       height: Number(height),
       weight: Number(weight),
-      image: urlDeImagen,
-    });
+      image: urlDeImagen
+    })
     const typeDb = await Type.findAll({
-      where: { name: types },
-    });
-    newPokemon.addType(typeDb);
-    return res.status(200).json(newPokemon);
+      where: { name: types }
+    })
+    newPokemon.addType(typeDb)
+    return res.status(200).json(newPokemon)
   } catch (error) {
-    return res.status(404).json({ error: error.message });
+    return res.status(404).json({ error: error.message })
   }
-});
+})
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const { name } = req.query;
-    const pokemonInfoTotal = await getAllPokemons();
+    const { name } = req.query
+    const pokemonInfoTotal = await getAllPokemons()
     if (name) {
       let pokemonName = await pokemonInfoTotal?.filter(
         (el) => el.name.toLowerCase() === name.toLowerCase()
-      );
-      if (pokemonName.length < 1) throw new Error("Pokemon no encontrado ");
-      if (pokemonName.length) res.status(200).send(pokemonName);
+      )
+      if (pokemonName.length < 1) throw new Error('Pokemon no encontrado ')
+      if (pokemonName.length) res.status(200).send(pokemonName)
     } else {
-      res.status(200).send(pokemonInfoTotal);
+      res.status(200).send(pokemonInfoTotal)
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message })
   }
-});
+})
 
-router.get("/:id", async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params
 
-    const pokemonInfoTotal = await getAllPokemons();
+    const pokemonInfoTotal = await getAllPokemons()
 
     if (id.length) {
-      let pokeFiltrado = await pokemonInfoTotal.filter((el) => el.pokeId == id);
+      let pokeFiltrado = await pokemonInfoTotal.filter((el) => el.pokeId == id)
       if (pokeFiltrado.length < 1) {
-        throw new Error("Pokemon no encontrado");
+        throw new Error('Pokemon no encontrado')
       }
-      return res.status(200).send(pokeFiltrado);
+      return res.status(200).send(pokeFiltrado)
     }
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message })
   }
-});
+})
 
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
   try {
-    const pokemonDelete = await Pokemon.findByPk(id);
+    const pokemonDelete = await Pokemon.findByPk(id)
     if (!pokemonDelete) {
-      new Error("Pokemon no encontrado para eliminar");
-      return res.status(400).send("No existe el pokemon que deseas eliminar");
+      new Error('Pokemon no encontrado para eliminar')
+      return res.status(400).send('No existe el pokemon que deseas eliminar')
     }
-    pokemonDelete.destroy();
-    return res.status(200).send("Pokemon eliminado correctamente");
+    pokemonDelete.destroy()
+    return res.status(200).send('Pokemon eliminado correctamente')
   } catch (error) {
-    res.status(400).json({ error: error.message }, "Entré al error de delete");
+    res.status(400).json({ error: error.message }, 'Entré al error de delete')
   }
-});
+})
 
-router.put("/editar/:id", async (req, res) => {
+router.put('/editar/:id', async (req, res) => {
   try {
     const { name, hp, attack, defense, speed, height, weight, image, types } =
-      req.body;
-    const { id } = req.params;
+      req.body
+    const { id } = req.params
 
     if (id) {
-      console.log(name, types);
-      const pokeEdit = await Pokemon.findByPk(id);
+      console.log(name, types)
+      const pokeEdit = await Pokemon.findByPk(id)
       await pokeEdit.update(
         {
           name,
@@ -113,24 +111,24 @@ router.put("/editar/:id", async (req, res) => {
           speed: Number(speed),
           height: Number(height),
           weight: Number(weight),
-          image,
+          image
         },
         {
-          where: { pokeId: id },
+          where: { pokeId: id }
         }
-      );
+      )
       const typeDb = await Type.findAll({
         where: {
-          name: types.length > 0 ? types?.map((t) => t.name) : types[0],
-        },
-      });
-      await pokeEdit.setTypes(typeDb);
-      await pokeEdit.save();
-      return res.status(200).json(pokeEdit);
+          name: types.length > 0 ? types?.map((t) => t.name) : types[0]
+        }
+      })
+      await pokeEdit.setTypes(typeDb)
+      await pokeEdit.save()
+      return res.status(200).json(pokeEdit)
     }
   } catch (error) {
-    return res.status(404).json({ error: error.message });
+    return res.status(404).json({ error: error.message })
   }
-});
+})
 
-module.exports = router;
+module.exports = router
