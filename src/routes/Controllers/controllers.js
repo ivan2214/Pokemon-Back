@@ -19,10 +19,10 @@ const getApiInfo = async () => {
     return {
       pokeId: el.data?.id,
       name: el.data?.name,
-      hp: el.data?.stats[0].base_stat,
-      attack: el.data?.stats[1].base_stat,
-      defense: el.data?.stats[2].base_stat,
-      speed: el.data?.stats[5].base_stat,
+      hp: el.data?.stats[0]?.base_stat,
+      attack: el.data?.stats[1]?.base_stat,
+      defense: el.data?.stats[2]?.base_stat,
+      speed: el.data?.stats[5]?.base_stat,
       height: el.data?.height,
       weight: el.data?.weight,
       image: el.data?.sprites?.other?.dream_world?.front_default,
@@ -51,7 +51,7 @@ const getAllPokemons = async () => {
   try {
     const apiPokemon = await getApiInfo()
     const dbInfo = await getDbInfo()
-    const allInfo = [...apiPokemon, ...dbInfo]
+    const allInfo = [...dbInfo, ...apiPokemon]
     console.log(allInfo)
     return allInfo
   } catch (error) {
